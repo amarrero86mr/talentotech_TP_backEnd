@@ -1,0 +1,29 @@
+{
+  "name": "talentotech_tp_backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amarrero86mr/talentotech_TP_backEnd.git"
+  },
+  "author": "Agustin Marrero",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amarrero86mr/talentotech_TP_backEnd/issues"
+  },
+  "homepage": "https://github.com/amarrero86mr/talentotech_TP_backEnd#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "firebase": "^12.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "swagger-jsdoc": "^6.2.8",
+    "bcryptjs": "^3.0.2"
+  }
+}
