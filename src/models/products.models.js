@@ -34,3 +34,18 @@ export const addProductModel = (product) => {
         })
     )
 };
+
+// Obtener un producto por id
+export const getProductModelById = (id) => {
+    return new Promise(async (res, req) => {
+        try {
+            const queryRes = await getDoc(collection(db, "products", id));
+            const product = queryRes.data()
+            console.log(product)
+            res(product)
+        } catch (error) {
+            console.log(error)
+            req(error)
+        }
+    })
+};
