@@ -1,7 +1,8 @@
-import { getAllProductsService } from "../services/products.service";
+import { addProductService, getAllProductsService } from "../services/products.service";
 
 
-export const getAllProducts = async (req, res) => {
+// Obtener todos los productos
+export const getAllProductsControllers = async (req, res) => {
     try {
         console.log("paso1")
         const products = await getAllProductsService()
@@ -11,3 +12,14 @@ export const getAllProducts = async (req, res) => {
         res.status(500).send()
     }
 };
+
+// Agregar un producto
+export const addProductControllers = async (req, res) => {
+    try{
+        const product = req.body;
+        const newProduct = await addProductService(product)
+        res.status(200).json(newProduct);
+    }catch(error){
+        res.status(500).send()
+    }
+}

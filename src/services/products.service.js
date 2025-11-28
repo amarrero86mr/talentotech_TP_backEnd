@@ -1,6 +1,6 @@
-import { getAllProductsModel } from "../models/products.models";
+import { addProductModel, getAllProductsModel } from "../models/products.models";
 
-
+// Obtener todos los productos
 export const getAllProductsService = async () => {
   return(
     new Promise(async (res,rej)=> {
@@ -14,3 +14,18 @@ export const getAllProductsService = async () => {
     })
   )
 };
+
+// Agregar un producto
+export const addProductService = async (product) => {
+  return(
+    new Promise(async (res, req) => {
+      try{
+        const newProduct = await addProductModel(product)
+        res(newProduct)
+      }catch(error){
+        req(error)
+      }
+    })
+  )
+
+}

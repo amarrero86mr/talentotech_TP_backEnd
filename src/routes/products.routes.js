@@ -1,6 +1,10 @@
 import { Router } from "express";
-import { getAllProducts } from "../controllers/pruducts.controllers";
+import { addProductControllers, getAllProducts, getAllProductsControllers } from "../controllers/pruducts.controllers";
 
 export const PRODUCT_ROUTER = Router();
 
-PRODUCT_ROUTER.get("/all", getAllProducts());
+// endPoint product/all
+PRODUCT_ROUTER.get("/all", getAllProductsControllers());
+
+// endPoint product/
+PRODUCT_ROUTER.post("/", addProductControllers());
