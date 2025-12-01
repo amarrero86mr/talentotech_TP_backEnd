@@ -1,4 +1,4 @@
-import { addProductModel, getAllProductsModel, getProductModelById } from "../models/products.models";
+import { addProductModel, getAllProductsModel, getProductModelById } from "../models/products.models.js";
 
 // Obtener todos los productos
 export const getAllProductsService = async () => {
@@ -24,7 +24,7 @@ export const addProductService = async (product) => {
         const newProduct = await addProductModel(product)
         res(newProduct)
       }catch(error){
-        req(error)
+        req("services ",error)
       }
     })
   )

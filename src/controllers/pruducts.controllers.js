@@ -1,4 +1,4 @@
-import { addProductService, getAllProductsService, getProductServiceById } from "../services/products.service";
+import { addProductService, getAllProductsService, getProductServiceById } from "../services/products.service.js";
 
 
 // Obtener todos los productos
@@ -19,7 +19,7 @@ export const addProductControllers = async (req, res) => {
         const newProduct = await addProductService(product)
         res.status(200).json(newProduct);
     }catch(error){
-        res.status(500).send()
+        res.status(500).send("controllers", error)
     }
 }
 
