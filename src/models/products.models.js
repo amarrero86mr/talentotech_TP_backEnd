@@ -1,26 +1,8 @@
 
 
-import { doc, getDoc, collection, getDocs, setDoc, addDoc, updateDoc, deleteDoc, } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, setDoc, addDoc, updateDoc, deleteDoc, documentId, } from "firebase/firestore";
 import { db } from "../db/firebase-db.config.js";
 
-// Obtener todos los productos
-// export const getAllProductsModel = () => {
-//     return new Promise(async (res, rej) => {
-//         try {
-//             const queryRes = await getDocs(collection(db, "products"));
-//             console.log(queryRes)
-//             const products = []
-//             queryRes.forEach((product) => {
-//                 products.push({ ...product.data(), id: product.id })
-//             });
-//             console.log(products)
-//             res(products)
-//         } catch (error) {
-//             console.log(error)
-//             rej(error)
-//         }
-//     })
-// };
 export const getAllProductsModel = async () => {
     try {
         const queryRes = await getDocs(collection(db, "products"));
@@ -40,13 +22,13 @@ export const getAllProductsModel = async () => {
 // Agregar un producto
 export const addProductModel = (product) => {
     return (
-        new Promise(async (res, req) => {
+        new Promise(async (res, rej) => {
             try {
                 const docRef = await addDoc(collection(db, "products"), product);
                 res({ ...product, id: docRef.id })
             } catch (error) {
                 console.log(error)
-                req(error)
+                rej(error)
             }
         })
     )
@@ -54,15 +36,59 @@ export const addProductModel = (product) => {
 
 // Obtener un producto por id
 export const getProductModelById = (id) => {
-    return new Promise(async (res, req) => {
+    return new Promise(async (res, rej) => {
         try {
-            const queryRes = await getDoc(collection(db, "products", id));
-            const product = queryRes.data()
-            console.log(product)
-            res(product)
+            const queryRes = doc(db, "products", id);
+            const product = await getDoc(queryRes)
+            // console.log(product.data())
+            if (product.exists()) {
+
+                console.log(product.id);
+                console.log(product.data());
+                const productRes = { [product.id]: product.data() };
+                res(productRes)
+            } else {
+                res()
+            }
+
         } catch (error) {
             console.log(error)
-            req(error)
+            rej(error)
         }
     })
 };
+
+// Editar producto por id
+export function editProductModelById(id, product) {
+    return (
+        new Promise(async (res, rej) => {
+            try {
+                const productRef = doc(db, "products", id)
+
+                await updateDoc(productRef, { ...product })
+
+                res(getProductModelById(id))
+            } catch (error) {
+                console.log(error)
+                rej(error)
+            }
+        })
+    )
+}
+
+
+// Eliminar un producto por id
+export function deleteProductModelById(id) {
+    return (
+        new Promise(async (res, rej) => {
+            try {
+                await deleteDoc(doc(db, "products", id));
+                console.log("Producto eliminado, id:", id)
+                res()
+            } catch (error) {
+                console.log(error)
+                rej(error)
+            }
+        })
+    )
+}
