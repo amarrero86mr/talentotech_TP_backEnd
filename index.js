@@ -3,6 +3,7 @@ import cors from "cors";
 import PRODUCT_ROUTER from './src/routes/products.routes.js';
 import path from "path";
 import { fileURLToPath } from 'url';
+import VISITORS_ROUTER from './src/routes/visitors.routes.js';
 
 const app = express()
 const port = 3000
@@ -31,7 +32,8 @@ app.use(express.static("public"));
 app.get('/', (req, res) => { res.redirect("index") })
 
 // Rutas protegidas
-app.use("/api", PRODUCT_ROUTER)
+app.use("/api", PRODUCT_ROUTER);
+app.use("/api/visitors", VISITORS_ROUTER);
 
 app.listen(port, () => {
   console.log(`Server corriendo en Puerto: localhost:${port}`)

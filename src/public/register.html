@@ -2,115 +2,115 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Registro - TalentoTech</title>
-  <script src='https://www.google.com/recaptcha/api.js'></script>
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #f6f6f6;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro - TalentoTech</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f6f6f6;
+        }
 
-    form {
-      background: white;
-      padding: 2rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+        form {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    input {
-      display: block;
-      width: 100%;
-      margin-bottom: 1rem;
-      padding: 0.6rem;
-    }
+        input {
+            display: block;
+            width: 100%;
+            margin-bottom: 1rem;
+            padding: 0.6rem;
+        }
 
-    button {
-      width: 100%;
-      padding: 0.8rem;
-      background: #0077ff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            background: #0077ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
 
-    .small {
-      text-align: center;
-      margin-top: 10px;
-    }
-  </style>
+        .small {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
-  <form id="registerForm">
-    <h2>Crear cuenta</h2>
-    <input type="email" id="email" placeholder="Email" required />
-    <input type="password" id="password" placeholder="Contraseña" required />
+    <form id="registerForm">
+        <h2>Crear cuenta</h2>
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
 
-    <!-- Anti-bot honeypot -->
-    <input type="checkbox" id="hiddenBot" name="bot" style="display: none" tabindex="-1" autocomplete="off" />
+        <!-- Anti-bot honeypot -->
+        <input type="checkbox" id="hiddenBot" name="bot" style="display: none" tabindex="-1" autocomplete="off" />
 
-    <!-- Checkbox humano -->
-    <div>
-      <div class="g-recaptcha" data-sitekey="6LewMqkrAAAAALrh47bzvEUad7misHOUOJdl2y3P" data-callback="enabledSubmit"
-        required></div>
-    </div>
+        <!-- Checkbox humano -->
+        <div>
+            <div class="g-recaptcha" data-sitekey="6LewMqkrAAAAALrh47bzvEUad7misHOUOJdl2y3P"
+                data-callback="enabledSubmit" required></div>
+        </div>
 
-    <button type="submit">Registrarme</button>
+        <button type="submit">Registrarme</button>
 
-    <div class="small">
-      ¿Ya tenés cuenta?
-      <a href="/login.html">Iniciar sesión</a>
-    </div>
-  </form>
+        <div class="small">
+            ¿Ya tenés cuenta?
+            <a href="/login.html">Iniciar sesión</a>
+        </div>
+    </form>
 
-  <script>
-    const form = document.getElementById("registerForm");
+    <script>
+        const form = document.getElementById("registerForm");
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
 
-      if (document.getElementById("hiddenBot").checked) {
-        alert("🤖 Detectado bot");
-        return;
-      }
+            if (document.getElementById("hiddenBot").checked) {
+                alert("🤖 Detectado bot");
+                return;
+            }
 
-      const response = grecaptcha.getResponse();
-      if (response.length == 0) {
-        alert("🤖 Captcha NO verificado");
-        return;
-      } 
+            const response = grecaptcha.getResponse();
+            if (response.length == 0) {
+                alert("🤖 Captcha NO verificado");
+                return;
+            }
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-      try {
-        const res = await fetch("/api/visitors/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
+            try {
+                const res = await fetch("/api/visitors/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, passhash }),
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert("Registro exitoso. Ahora podés iniciar sesión.");
+                    window.location.href = "/login.html";
+                } else {
+                    alert(data.msg || "Error al registrarte");
+                }
+            } catch (err) {
+                console.error(err, err.fetch);
+                alert("Error de conexión");
+            }
         });
-
-        const data = await res.json();
-
-        if (res.ok) {
-          alert("Registro exitoso. Ahora podés iniciar sesión.");
-          window.location.href = "/login.html";
-        } else {
-          alert(data.msg || "Error al registrarte");
-        }
-      } catch (err) {
-        console.error(err, err.fetch);
-        alert("Error de conexión");
-      }
-    });
-  </script>
+    </script>
 </body>
 
 </html>
