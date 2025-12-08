@@ -1,13 +1,11 @@
 [
     {
-        "id": 1,
         "name": "Producto 1",
         "desciption": "el producto 1 es de color, y tiene un volumen",
         "price": 1000,
         "stock": 65
     },
     {
-        "id": 2,
         "name": "Producto 2",
         "desciption": "el producto 2 es de color, y tiene un volumen",
         "price": 2000,
