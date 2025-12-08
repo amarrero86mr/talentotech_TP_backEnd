@@ -11,7 +11,7 @@ const __fileName = fileURLToPath(import.meta.url)
 const __dirname = path.dirname( __fileName );
 console.log("__fileName: ", __dirname)
 
-/* const corsConfig = {
+const corsConfig = {
     origin: ['http://localhost:3000', 'https://midominio.com'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -19,9 +19,9 @@ console.log("__fileName: ", __dirname)
     credentials: true,
     maxAge: 600,
     optionsSuccessStatus: 204
-} */
+}
 
-//app.use(cors(corsConfig))
+app.use(cors(corsConfig)) 
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
