@@ -1,4 +1,4 @@
-import { addRegisterVisitorsService } from "../services/visitors.service";
+import { addRegisterVisitorsService } from "../services/visitors.service.js";
 
 
 // Agregar un producto

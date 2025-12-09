@@ -1,4 +1,4 @@
-import { addRegisterVisitorsModel } from "../models/visitors.models"
+import { addRegisterVisitorsModel } from "../models/visitors.models.js"
 
 
 export const addRegisterVisitorsService = async (visitors) => {

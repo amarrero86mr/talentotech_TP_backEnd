@@ -10,7 +10,6 @@ const port = 3000
 
 const __fileName = fileURLToPath(import.meta.url)
 const __dirname = path.dirname( __fileName );
-console.log("__fileName: ", __dirname)
 
 const corsConfig = {
     origin: ['http://localhost:3000', 'https://midominio.com'],
