@@ -4,6 +4,7 @@ import PRODUCT_ROUTER from './src/routes/products.routes.js';
 import path from "path";
 import { fileURLToPath } from 'url';
 import VISITORS_ROUTER from './src/routes/visitors.routes.js';
+import { requireAuth } from './src/middleware/authentication.js';
 
 const app = express()
 const port = 3000
@@ -30,9 +31,17 @@ app.use(express.static(path.join(__dirname,"src/public/")));
 app.use(express.static("public"));
 app.get('/', (req, res) => { res.redirect("index") })
 
-// Rutas protegidas
-app.use("/api", PRODUCT_ROUTER);
 app.use("/api/visitors", VISITORS_ROUTER);
+
+// Rutas protegidas
+
+app.use(requireAuth);
+
+app.use((req, res, next) => {
+  console.log(`Datos received at:  ${req.method} ${req.url}`);
+  next();
+});
+app.use("/api", PRODUCT_ROUTER);
 
 app.listen(port, () => {
   console.log(`Server corriendo en Puerto: localhost:${port}`)
