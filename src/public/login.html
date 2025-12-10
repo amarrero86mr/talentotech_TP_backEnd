@@ -101,8 +101,14 @@
 
         const data = await res.json();
 
-        if (res.ok && data.token) {
-          localStorage.setItem("token", data.token);
+        // if (res.ok && data.token) {
+        //   localStorage.setItem("token", data.token);
+        //   window.location.href = "/docs";
+        // } else {
+        //   alert(data.msg || "Error al iniciar sesión");
+        // }
+        if (res.ok ) {
+          
           window.location.href = "/docs";
         } else {
           alert(data.msg || "Error al iniciar sesión");

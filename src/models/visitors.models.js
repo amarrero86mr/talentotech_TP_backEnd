@@ -1,4 +1,4 @@
-import { doc, getDoc, collection, getDocs, setDoc, addDoc, updateDoc, deleteDoc, documentId, } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs, setDoc, addDoc, updateDoc, deleteDoc, documentId, query, where, } from "firebase/firestore";
 import { db } from "../db/firebase-db.config.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -23,34 +23,41 @@ export const addRegisterVisitorsModel = (visitor) => {
     )
 };
 
-export const getloginModelByEmail = (logindata) => {
-    return new Promise(async (res, rej) => {
-        try {
-            const email = logindata.email
-            const password = logindata.password
-            const queryRes = doc(db, "visitors", email);
-            const visitor = await getDoc(queryRes)
-            // console.log(product.data())
-            if (visitor.exists()) {
+export const getLoginModel = (loginData) => {
+  return new Promise(async (res, rej) => {
+    try {
+      const email = loginData.email;
+      const password = loginData.password;
 
-                const validPassword = await bcrypt.compare(password, visitor.data().passhash);
-                if (!validPassword) return error401("Invalid password");
+      const q = query(
+        collection(db, "visitors"),
+        where("email", "==", email)
+      );
 
-                const token = jwt.sign(
-                    { id: visitor.data().id_visitor, email: visitor.data().email },
-                    process.env.JWT_SECRET || "default_secret",
-                    { expiresIn: "1h" }
-                );
+      const queryRes = await getDocs(q);
 
-                // return { token };
-                res(token)
-            } else {
-                res()
-            }
+      if (queryRes.empty) {
+        return rej({ status: 404, msg: "User not found" });
+      }
 
-        } catch (error) {
-            console.log(error)
-            rej(error)
-        }
-    })
+      let visitor;
+      queryRes.forEach(docSnap => {
+        visitor = { id: docSnap.id, ...docSnap.data() };
+      });
+
+      const validPassword = await bcrypt.compare(password, visitor.passhash);
+      if (!validPassword) return rej({ status: 401, msg: "Invalid password" });
+
+      const token = jwt.sign(
+        { id: visitor.id_visitor, email: visitor.email },
+        process.env.JWT_SECRET || "default_secret",
+        { expiresIn: "1h" }
+      );
+
+      res({ token });
+
+    } catch (error) {
+      rej(error);
+    }
+  });
 };
