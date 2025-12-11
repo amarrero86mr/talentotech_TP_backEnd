@@ -35,13 +35,7 @@ app.use("/api/visitors", VISITORS_ROUTER);
 
 // Rutas protegidas
 
-app.use(requireAuth);
-
-app.use((req, res, next) => {
-  console.log(`Datos received at:  ${req.method} ${req.url}`);
-  next();
-});
-app.use("/api", PRODUCT_ROUTER);
+app.use("/api", requireAuth, PRODUCT_ROUTER);
 
 app.listen(port, () => {
   console.log(`Server corriendo en Puerto: localhost:${port}`)
