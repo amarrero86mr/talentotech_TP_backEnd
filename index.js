@@ -1,13 +1,49 @@
 import express from 'express';
-import { db } from "./src/db/firebase-db.config.js"
+import cors from "cors";
+import PRODUCT_ROUTER from './src/routes/products.routes.js';
+import path from "path";
+import { fileURLToPath } from 'url';
+import VISITORS_ROUTER from './src/routes/visitors.routes.js';
+import { requireAuth } from './src/middleware/authentication.js';
+import { swaggerSpec } from "./src/swagger.js";
+import swaggerUi from "swagger-ui-express";
+
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-  res.send("Hola vengo a flotar")
-})
+const __fileName = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__fileName);
+
+const corsConfig = {
+  origin: ['http://localhost:3000', 'https://midominio.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Length'],
+  credentials: true,
+  maxAge: 600,
+  optionsSuccessStatus: 204
+}
+
+app.use(cors(corsConfig))
+app.use(express.json());
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "src/public/")));
+
+app.use(express.static("public"));
+app.get("/swagger.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
+app.get('/', (req, res) => { res.redirect("index") })
+
+app.use("/api/visitors", VISITORS_ROUTER);
+
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Rutas protegidas
+app.use("/api", requireAuth, PRODUCT_ROUTER);
 
 app.listen(port, () => {
   console.log(`Server corriendo en Puerto: localhost:${port}`)
-  console.log( "DB: " , db)
 })
