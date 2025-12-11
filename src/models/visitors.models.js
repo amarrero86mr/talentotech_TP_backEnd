@@ -50,7 +50,7 @@ export const getLoginModel = (loginData) => {
 
       const token = jwt.sign(
         { id: visitor.id_visitor, email: visitor.email },
-        process.env.JWT_SECRET || "default_secret",
+        process.env.JWT_SECRET,
         { expiresIn: "1h" }
       );
 

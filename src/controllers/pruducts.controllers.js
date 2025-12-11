@@ -5,7 +5,6 @@ import { addProductService, deleteProductServiceById, editProductServiceById, ge
 export const getAllProductsControllers = async (req, res) => {
     try {
         const products = await getAllProductsService()
-        console.log(products)
         res.status(200).json(products);
     } catch (error) {
         res.status(500).send(error)

@@ -6,11 +6,11 @@ import { db } from "../db/firebase-db.config.js";
 export const getAllProductsModel = async () => {
     try {
         const queryRes = await getDocs(collection(db, "products"));
-        console.log(queryRes.size)
         const products = queryRes.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
         }));
+        console.log(products)
 
         return products;
     } catch (error) {

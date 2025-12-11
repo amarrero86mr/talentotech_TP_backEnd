@@ -6,22 +6,12 @@ const VISITORS_ROUTER = express.Router();
 
 VISITORS_ROUTER.post("/register", addRegisterVisitorControllers);
 
-// VISITORS_ROUTER.post("/login", async (req, res) => {
-//   const credentials = req.body;
-//   const result = await getLoginController(credentials);
-//     console.log(result)
-//   if ((result).status) {
-//     const err = result;
-//     return res.status(err.status).json(err);
-//   }
 
-//   res.status(200).json(result);
-// });
 VISITORS_ROUTER.post("/login", async (req, res) => {
   const credentials = req.body;
 
   const result = await getLoginController(credentials);
-  console.log("router: ",result);
+  //console.log("router: ",result);
 
   if (result.status) {
     return res.status(result.status).json(result);

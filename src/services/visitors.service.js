@@ -18,7 +18,7 @@ export const addRegisterVisitorsService = async (visitors) => {
 export const getLoginVisitorsService = async (visitors) => {
   return(
     new Promise(async (res, rej) => {
-      console.log("Test dentro de services: add visitors services")
+      console.log("Test dentro de services: login visitors services")
       try{
         const loginVisitors = await getLoginModel(visitors)
         res(loginVisitors)
