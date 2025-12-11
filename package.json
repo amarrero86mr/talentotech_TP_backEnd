@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node index.js",
-    "watch" : "node --watch index.js"
+    "watch": "node --watch index.js"
   },
   "repository": {
     "type": "git",
@@ -20,12 +20,15 @@
   "homepage": "https://github.com/amarrero86mr/talentotech_TP_backEnd#readme",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "firebase": "^12.6.0",
     "jsonwebtoken": "^9.0.2",
     "swagger-jsdoc": "^6.2.8",
-    "bcryptjs": "^3.0.2"
+    "swagger-ui": "^5.30.2",
+    "swagger-ui-dist": "^5.30.2",
+    "swagger-ui-express": "^5.0.1"
   }
 }

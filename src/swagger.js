@@ -1,4 +1,11 @@
 import swaggerJsDoc from "swagger-jsdoc";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __fileName = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__fileName);
+
+
 /**
  * @swagger
  * components:
@@ -8,6 +15,7 @@ import swaggerJsDoc from "swagger-jsdoc";
  *       scheme: bearer
  *       bearerFormat: JWT
  *
+ *   schemas:
  *     Products:
  *       type: object
  *       required:
@@ -27,7 +35,8 @@ import swaggerJsDoc from "swagger-jsdoc";
  *           format: float
  *           description: Price of the product
  *         stock:
- *           type: integer
+ *           type: number
+ *           format: int
  *           description: Units available
  *       example:
  *         product_name: "Yerba Piporé"
@@ -39,7 +48,23 @@ import swaggerJsDoc from "swagger-jsdoc";
  *  tags:
  *    - name: Products
  */
-const swaggerSpec = swaggerJsDoc({
+// export const swaggerSpec = swaggerJsDoc({
+//   definition: {
+//     openapi: "3.0.0",
+//     info: {
+//       title: "TalentoTech - Back-End",
+//       version: "1.0.0",
+//       description: "TP de Back-end",
+//     },
+//   },
+//   apis: [
+//     path.join(__dirname, "routes/*.js"),
+//     path.join(__dirname, "routes/*.ts"),
+//     path.join(__dirname, "swagger.js"),
+//   ],
+// });
+
+export const swaggerSpec = swaggerJsDoc({
   definition: {
     openapi: "3.0.0",
     info: {
@@ -47,13 +72,23 @@ const swaggerSpec = swaggerJsDoc({
       version: "1.0.0",
       description: "TP de Back-end",
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        }
+      }
+    },
+    security: [
+      { bearerAuth: [] }  // 👈 Habilita JWT para TODAS las rutas
+    ]
   },
   apis: [
-    `${__dirname}/routers/*.js`,
-    `${__dirname}/routers/*.ts`,
-    `${__dirname}/swagger.js`,
-    `${__dirname}/swagger.ts`,
+    path.join(__dirname, "routes/*.js"),
+    path.join(__dirname, "routes/*.ts"),
+    path.join(__dirname, "swagger.js"),
   ],
 });
 
-export default swaggerSpec;
