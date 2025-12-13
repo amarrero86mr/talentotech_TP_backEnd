@@ -15,7 +15,7 @@ const __fileName = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__fileName);
 
 const corsConfig = {
-  origin: ['http://localhost:3000', 'https://midominio.com'],
+  origin: ['http://localhost:3000', 'https://talentotech-back-end.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   exposedHeaders: ['Content-Length'],
